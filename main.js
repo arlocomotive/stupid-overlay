@@ -21,7 +21,7 @@ base_image.onload = function() {
     avatar_image.setAttribute("crossorigin", "anonymous");
 
     const render = () => {
-        fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value + "&size=420x420&format=Png")).then(function(response) {
+        fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value.replace(/\D/g, "") + "&size=420x420&format=Png")).then(function(response) {
             const data = response.data;
             if (data && data[0]) {
                 avatar_image.src = data[0].imageUrl;
@@ -40,6 +40,8 @@ base_image.onload = function() {
         link.href = render();
         link.click();
     });
-    userIDInput.addEventListener("change keyup paste", render);
+    userIDInput.addEventListener("input", render);
+    userIDInput.addEventListener("change", render);
+    userIDInput.addEventListener("keyup", render);
 }
 base_image.src = "background.png";
