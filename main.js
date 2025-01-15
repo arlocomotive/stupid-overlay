@@ -17,7 +17,7 @@ const saveImage = () => {
         link.href = canvas.toDataURL();
         link.click();
     }
-    img.src = "thy end.png";
+    img.src = "thy start.png";
 }
 
 saveImgBtn.addEventListener("click", saveImage);
