@@ -14,8 +14,6 @@ base_image.onload = function() {
 
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-    canvas.width = base_image.naturalWidth;
-    canvas.height = base_image.naturalHeight;
     previewImage.width = base_image.naturalWidth;
     previewImage.height = base_image.naturalHeight;
 
@@ -25,7 +23,7 @@ base_image.onload = function() {
     const render = () => {
         fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value + "&size=420x420&format=Png")).then(function(response) {
             const data = response.data;
-            if (data[0]) {
+            if (data && data[0]) {
                 avatar_image.src = data[0].imageUrl;
             }
         })
@@ -42,6 +40,6 @@ base_image.onload = function() {
         link.href = render();
         link.click();
     });
-    userIDInput.addEventListener("input", render);
+    userIDInput.addEventListener("change keyup paste", render);
 }
 base_image.src = "background.png";
