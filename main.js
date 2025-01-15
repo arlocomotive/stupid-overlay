@@ -35,4 +35,4 @@ base_image.onload = function() {
         })
     });
 }
-base_image.src = "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-D956F03000868B022D8F4A49B35EC27A-Png/420/420/AvatarHeadshot/Png/noFilter";
+base_image.src = "thy start";
