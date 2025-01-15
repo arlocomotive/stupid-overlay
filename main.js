@@ -1,6 +1,7 @@
 const saveImageButton = document.querySelector(".save-image");
 const previewImage = document.querySelector(".preview-image");
 const userIDInput = document.querySelector(".roblox-userid");
+const avatarZoom = document.querySelector(".avatar-zoom")
 let lastInput = ""
 
 async function fetchAsync (url) {
@@ -21,7 +22,7 @@ baseImage.onload = function() {
     const render = () => {
         const input = userIDInput.value.replace(/\D/g, "")
         if (input != lastInput) {
-            lastInput = input;
+            // lastInput = input;
             if (input) {
                 fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
                     const data = response.data;
