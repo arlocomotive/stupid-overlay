@@ -38,8 +38,8 @@ baseImage.onload = function() {
     render();
     avatarImage.onload = () => {
         context.drawImage(baseImage, 0, 0);
-        const offset = (size * (zoom * .5))
-        const zoom_size = (size * (1 + zoom))
+        const zoom_size = (size * (1 - zoom));
+        const offset = ((size - zoom_size) * .5);
         context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 155, 320, 160);
         context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 455, 320, 160);
         const dataURL = canvas.toDataURL()
