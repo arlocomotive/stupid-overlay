@@ -7,22 +7,13 @@ async function fetchAsync (url) {
     return data;
 }
 
-function createImage() {
-    let new_image = document.createElement("img");
-    new_image.setAttribute("crossorigin", "anonymous");
-    return new_image;
-}
-
-let avatar_image = createImage();
-let base_image = createImage();
-
-const saveImage = () => {
-    fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value + "&size=420x420&format=Png")).then(function(response) {
-        avatar_image.src = response.data[0].imageUrl
-    })
-}
+let avatar_image = document.createElement("img");
+avatar_image.setAttribute("crossorigin", "anonymous");
+let base_image = document.createElement("img");
+base_image.setAttribute("crossorigin", "anonymous");
 
 avatar_image.onload = function() {
+    console.log("loaded");
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
     canvas.width = base_image.naturalWidth;
@@ -31,12 +22,17 @@ avatar_image.onload = function() {
     context.drawImage(base_image, 0, 0);
     context.drawImage(avatar_image, 0, 155, 320, 160);
     context.drawImage(avatar_image, 0, 455, 320, 160);
-    const link = document.createElement("i");
+    const link = document.createElement("a");
     link.download = "image.png";
     link.href = canvas.toDataURL();
     link.click();
 }
 base_image.onload = function() {
-    saveImageButton.addEventListener("click", saveImage)
+    saveImageButton.addEventListener("click", () => {
+        fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value + "&size=420x420&format=Png")).then(function(response) {
+            console.log(response.data[0].imageUrl);
+            avatar_image.src = response.data[0].imageUrl;
+        })
+    });
 }
-base_image.src = "thy start.png";
+base_image.src = "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-D956F03000868B022D8F4A49B35EC27A-Png/420/420/AvatarHeadshot/Png/noFilter";
