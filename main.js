@@ -30,7 +30,6 @@ baseImage.onload = function() {
             fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
                 const data = response.data;
                 if (data && data[0]) {
-                    save = false;
                     avatarImage.src = data[0].imageUrl;
                 }
             })
@@ -60,6 +59,9 @@ baseImage.onload = function() {
         save = true;
         render();
     });
-    previewButton.addEventListener("click", render);
+    previewButton.addEventListener("click", () => {
+        save = false;
+        render();
+    });
 }
 baseImage.src = "background.png";
