@@ -28,15 +28,15 @@ baseImage.onload = function() {
             fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
                 const data = response.data;
                 console.log(data);
-                if (data && data[0]) {
+                if (data[0]) {
                     avatarImage.src = data[0].imageUrl;
                 }
             })
             context.drawImage(baseImage, 0, 0);
             const offset = (size * zoom)
-            const zoom_size = (size - offset)
-            context.drawImage(avatarImage, -offset, -offset, zoom_size, zoom_size, 0, 155, 320, 160);
-            context.drawImage(avatarImage, -offset, -offset, zoom_size, zoom_size, 0, 455, 320, 160);
+            const zoom_size = (size + offset)
+            context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 155, 320, 160);
+            context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 455, 320, 160);
             const dataURL = canvas.toDataURL();
             previewImage.src = dataURL;
             return dataURL;
