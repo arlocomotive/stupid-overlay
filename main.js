@@ -21,8 +21,8 @@ baseImage.onload = function() {
 
     const render = () => {
         const input = userIDInput.value.replace(/\D/g, "")
+        lastInput = input
         if (input && (input != lastInput)) {
-            lastInput = input
             fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
                 const data = response.data;
                 if (data && data[0]) {
@@ -43,6 +43,6 @@ baseImage.onload = function() {
         link.href = render();
         link.click();
     });
-    setInterval(render, 1000)
+    setInterval(render, 100)
 }
 baseImage.src = "background.png";
