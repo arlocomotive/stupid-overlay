@@ -25,15 +25,16 @@ baseImage.onload = function() {
         const input = userIDInput.value.replace(/\D/g, "")
         if (input) {
             fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
-                console.log(input);
+                console.log(data);
                 const data = response.data;
                 if (data && data[0]) {
                     avatarImage.src = data[0].imageUrl;
                 }
             })
             context.drawImage(baseImage, 0, 0);
-            context.drawImage(avatarImage, (420 * (zoom / 100)), (420 * (zoom / 100)), 420, 420, 0, 155, 320, 160);
-            context.drawImage(avatarImage, (420 * (zoom / 100)), (420 * (zoom / 100)), 420, 420, 0, 455, 320, 160);
+            const offset = (420 * zoom)
+            context.drawImage(avatarImage, -offset, -offset, 420 - offset, 420 - offset, 0, 155, 320, 160);
+            context.drawImage(avatarImage, -offset, -offset, 420 - offset, 420 - offset, 0, 455, 320, 160);
             const dataURL = canvas.toDataURL();
             previewImage.src = dataURL;
             return dataURL;
@@ -41,7 +42,7 @@ baseImage.onload = function() {
     }
     render();
     avatarZoom.addEventListener("input", () => {
-        zoom = avatarZoom.value;
+        zoom = (avatarZoom.value / 100);
     })
     saveButton.addEventListener("click", () => {
         const link = document.createElement("a");
