@@ -4,12 +4,10 @@ const userIDInput = document.querySelector(".roblox-userid");
 let lastInput = ""
 
 async function fetchAsync (url) {
-    let response = await fetch(url);
-    let data = await response.json();
-    return data;
+    return (await (await fetch(url)).json());
 }
 
-let baseImage = document.createElement("img");
+const baseImage = document.createElement("img");
 baseImage.setAttribute("crossorigin", "anonymous");
 baseImage.onload = function() {
 
@@ -19,7 +17,7 @@ baseImage.onload = function() {
     canvas.height = baseImage.naturalHeight;
 
     const avatarImage = document.createElement("img");
-    avatarimage.setAttribute("crossorigin", "anonymous");
+    avatarImage.setAttribute("crossorigin", "anonymous");
 
     const render = () => {
         const input = userIDInput.value.replace(/\D/g, "")
