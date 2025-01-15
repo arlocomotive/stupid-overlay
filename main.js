@@ -1,6 +1,7 @@
-saveImageButton = document.querySelector(".save-image");
-previewImage = document.querySelector(".preview-image");
-userIDInput = document.querySelector(".roblox-userid");
+const saveImageButton = document.querySelector(".save-image");
+const previewImage = document.querySelector(".preview-image");
+const userIDInput = document.querySelector(".roblox-userid");
+let lastInput = ""
 
 async function fetchAsync (url) {
     let response = await fetch(url);
@@ -8,31 +9,35 @@ async function fetchAsync (url) {
     return data;
 }
 
-let base_image = document.createElement("img");
-base_image.setAttribute("crossorigin", "anonymous");
-base_image.onload = function() {
+let baseImage = document.createElement("img");
+baseImage.setAttribute("crossorigin", "anonymous");
+baseImage.onload = function() {
 
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-    canvas.width = base_image.naturalWidth;
-    canvas.height = base_image.naturalHeight;
+    canvas.width = baseImage.naturalWidth;
+    canvas.height = baseImage.naturalHeight;
 
-    const avatar_image = document.createElement("img");
-    avatar_image.setAttribute("crossorigin", "anonymous");
+    const avatarImage = document.createElement("img");
+    avatarimage.setAttribute("crossorigin", "anonymous");
 
     const render = () => {
-        fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value.replace(/\D/g, "") + "&size=420x420&format=Png")).then(function(response) {
-            const data = response.data;
-            if (data && data[0]) {
-                avatar_image.src = data[0].imageUrl;
-            }
-        })
-        context.drawImage(base_image, 0, 0);
-        context.drawImage(avatar_image, 0, 155, 320, 160);
-        context.drawImage(avatar_image, 0, 455, 320, 160);
-        const dataURL = canvas.toDataURL();
-        previewImage.src = dataURL;
-        return dataURL;
+        const input = userIDInput.value.replace(/\D/g, "")
+        if (input && (input != lastInput)) {
+            lastInput = input
+            fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
+                const data = response.data;
+                if (data && data[0]) {
+                    avatarImage.src = data[0].imageUrl;
+                }
+            })
+            context.drawImage(baseImage, 0, 0);
+            context.drawImage(avatarImage, 0, 155, 320, 160);
+            context.drawImage(avatarImage, 0, 455, 320, 160);
+            const dataURL = canvas.toDataURL();
+            previewImage.src = dataURL;
+            return dataURL;
+        }
     }
     saveImageButton.addEventListener("click", () => {
         const link = document.createElement("a");
@@ -40,8 +45,6 @@ base_image.onload = function() {
         link.href = render();
         link.click();
     });
-    userIDInput.addEventListener("input", render);
-    userIDInput.addEventListener("change", render);
-    userIDInput.addEventListener("keyup", render);
+    setInterval(render, 2000)
 }
-base_image.src = "background.png";
+baseImage.src = "background.png";
