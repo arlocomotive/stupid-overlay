@@ -53,7 +53,7 @@ baseImage.onload = function() {
         }
     }
     avatarZoom.addEventListener("input", () => {
-        zoom = (avatarZoom.value / (avatarZoom.max + 1));
+        zoom = (avatarZoom.value / 21);
     })
     saveButton.addEventListener("click", () => {
         save = true;
