@@ -35,4 +35,4 @@ base_image.onload = function() {
         })
     });
 }
-base_image.src = "thy start";
+base_image.src = "thy start.png";
