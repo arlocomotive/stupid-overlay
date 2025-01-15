@@ -1,6 +1,7 @@
 previewImg = document.querySelector(".preview-img img");
 saveImgBtn = document.querySelector(".save-img");
 
+console.log("nananana")
 let base_image = document.createElement("img");
 base_image.setAttribute("crossorigin", "anonymous")
 
