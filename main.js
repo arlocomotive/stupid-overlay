@@ -3,9 +3,6 @@ saveImgBtn = document.querySelector(".save-img");
 
 let base_image = document.createElement("img");
 base_image.setAttribute("crossorigin", "anonymous")
-base_image.onload = function() {
-    saveImgBtn.addEventListener("click", saveImage);
-}
 
 const saveImage = () => {
     const canvas = document.createElement("canvas");
@@ -21,4 +18,7 @@ const saveImage = () => {
     link.click();
 }
 
+base_image.onload = function() {
+    saveImgBtn.addEventListener("click", saveImage);
+}
 base_image.src = "thy start.png";
