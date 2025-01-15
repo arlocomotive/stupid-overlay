@@ -45,6 +45,6 @@ baseImage.onload = function() {
         link.href = render();
         link.click();
     });
-    setInterval(render, 2000)
+    setInterval(render, 1000)
 }
 baseImage.src = "background.png";
