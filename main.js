@@ -7,6 +7,7 @@ baseImage.onload = function() {
     const previewImage = document.querySelector(".preview-image");
     const userIDInput = document.querySelector(".roblox-userid");
     const avatarZoom = document.querySelector(".avatar-zoom")
+    const zoomFactor = .02;
     const size = 420
     let zoom = avatarZoom.value;
     let save = false;
@@ -53,7 +54,7 @@ baseImage.onload = function() {
         }
     }
     avatarZoom.addEventListener("input", () => {
-        zoom = (avatarZoom.value / 100);
+        zoom = (avatarZoom.value * zoomFactor);
     })
     saveButton.addEventListener("click", () => {
         save = true;
