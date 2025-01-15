@@ -1,8 +1,4 @@
 
-async function fetchAsync (url) {
-    return (await (await fetch(url)).json());
-}
-
 const baseImage = document.createElement("img");
 baseImage.setAttribute("crossorigin", "anonymous");
 baseImage.onload = function() {
@@ -11,6 +7,7 @@ baseImage.onload = function() {
     const previewImage = document.querySelector(".preview-image");
     const userIDInput = document.querySelector(".roblox-userid");
     const avatarZoom = document.querySelector(".avatar-zoom")
+    const size = 420
     let zoom = avatarZoom.value;
 
     const canvas = document.createElement("canvas");
@@ -21,20 +18,25 @@ baseImage.onload = function() {
     const avatarImage = document.createElement("img");
     avatarImage.setAttribute("crossorigin", "anonymous");
 
+    async function fetchAsync (url) {
+        return (await (await fetch(url)).json());
+    }
+
     const render = () => {
         const input = userIDInput.value.replace(/\D/g, "")
         if (input) {
             fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + input + "&size=420x420&format=Png")).then(function(response) {
-                console.log(data);
                 const data = response.data;
+                console.log(data);
                 if (data && data[0]) {
                     avatarImage.src = data[0].imageUrl;
                 }
             })
             context.drawImage(baseImage, 0, 0);
-            const offset = (420 * zoom)
-            context.drawImage(avatarImage, -offset, -offset, 420 - offset, 420 - offset, 0, 155, 320, 160);
-            context.drawImage(avatarImage, -offset, -offset, 420 - offset, 420 - offset, 0, 455, 320, 160);
+            const offset = (size * zoom)
+            const zoom_size = (size - offset)
+            context.drawImage(avatarImage, -offset, -offset, zoom_size, zoom_size, 0, 155, 320, 160);
+            context.drawImage(avatarImage, -offset, -offset, zoom_size, zoom_size, 0, 455, 320, 160);
             const dataURL = canvas.toDataURL();
             previewImage.src = dataURL;
             return dataURL;
