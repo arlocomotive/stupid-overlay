@@ -14,8 +14,8 @@ base_image.onload = function() {
 
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-    previewImage.width = base_image.naturalWidth;
-    previewImage.height = base_image.naturalHeight;
+    canvas.width = base_image.naturalWidth;
+    canvas.height = base_image.naturalHeight;
 
     const avatar_image = document.createElement("img");
     avatar_image.setAttribute("crossorigin", "anonymous");
