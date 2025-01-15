@@ -14,20 +14,22 @@ base_image.onload = function() {
     previewImage.width = base_image.naturalWidth;
     previewImage.height = base_image.naturalHeight;
 
-    let avatar_image = document.createElement("img");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = base_image.naturalWidth
+    canvas.height = base_image.naturalHeight
+    const avatar_image = document.createElement("img");
     avatar_image.setAttribute("crossorigin", "anonymous");
 
     const render = () => {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
         context.drawImage(base_image, 0, 0);
         context.drawImage(avatar_image, 0, 155, 320, 160);
         context.drawImage(avatar_image, 0, 455, 320, 160);
-        let dataURL = canvas.toDataURL();
+        const dataURL = canvas.toDataURL();
         previewImage.src = dataURL;
         return dataURL;
     }
-    
+
     avatar_image.onload = function() {
         const link = document.createElement("a");
         link.download = "image.png";
