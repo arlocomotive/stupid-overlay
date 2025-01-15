@@ -9,6 +9,7 @@ baseImage.onload = function() {
     const avatarZoom = document.querySelector(".avatar-zoom")
     const size = 420
     let zoom = avatarZoom.value;
+    let save = false;
 
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -32,25 +33,31 @@ baseImage.onload = function() {
                     avatarImage.src = data[0].imageUrl;
                 }
             })
-            context.drawImage(baseImage, 0, 0);
-            const offset = (size * zoom)
-            const zoom_size = (size + offset)
-            context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 155, 320, 160);
-            context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 455, 320, 160);
-            const dataURL = canvas.toDataURL();
-            previewImage.src = dataURL;
-            return dataURL;
         }
     }
     render();
+    avatarImage.onload = () => {
+        context.drawImage(baseImage, 0, 0);
+        const offset = (size * zoom)
+        const zoom_size = (size / offset)
+        context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 155, 320, 160);
+        context.drawImage(avatarImage, offset, offset, zoom_size, zoom_size, 0, 455, 320, 160);
+        const dataURL = canvas.toDataURL()
+        previewImage.src = dataURL;
+        if (save) {
+            save = false;
+            const link = document.createElement("a");
+            link.download = "image.png";
+            link.href = dataURL;
+            link.click();
+        }
+    }
     avatarZoom.addEventListener("input", () => {
         zoom = (avatarZoom.value / 100);
     })
     saveButton.addEventListener("click", () => {
-        const link = document.createElement("a");
-        link.download = "image.png";
-        link.href = render();
-        link.click();
+        save = true;
+        render();
     });
     previewButton.addEventListener("click", render);
 }
