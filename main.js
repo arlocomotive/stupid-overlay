@@ -8,6 +8,17 @@ async function fetchAsync (url) {
     return data;
 }
 
+const render = () => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.drawImage(base_image, 0, 0);
+    context.drawImage(avatar_image, 0, 155, 320, 160);
+    context.drawImage(avatar_image, 0, 455, 320, 160);
+    let dataURL = canvas.toDataURL();
+    previewImage.src = dataURL;
+    return dataURL;
+}
+
 let base_image = document.createElement("img");
 base_image.setAttribute("crossorigin", "anonymous");
 base_image.onload = function() {
@@ -17,16 +28,9 @@ base_image.onload = function() {
     let avatar_image = document.createElement("img");
     avatar_image.setAttribute("crossorigin", "anonymous");
     avatar_image.onload = function() {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        context.drawImage(base_image, 0, 0);
-        context.drawImage(avatar_image, 0, 155, 320, 160);
-        context.drawImage(avatar_image, 0, 455, 320, 160);
-        let dataURL = canvas.toDataURL();
-        previewImage.src = dataURL
         const link = document.createElement("a");
         link.download = "image.png";
-        link.href = dataURL
+        link.href = render();
         link.click();
     }
     saveImageButton.addEventListener("click", () => {
@@ -34,5 +38,6 @@ base_image.onload = function() {
             avatar_image.src = response.data[0].imageUrl;
         })
     });
+    userIDInput.addEventListener("input", render)
 }
 base_image.src = "background.png";
