@@ -1,23 +1,24 @@
 previewImg = document.querySelector(".preview-img img");
 saveImgBtn = document.querySelector(".save-img");
 
+let base_image = document.createElement("img");
+base_image.setAttribute("crossorigin", "anonymous")
+base_image.onload = function() {
+    saveImgBtn.addEventListener("click", saveImage);
+}
+
 const saveImage = () => {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-    canvas.width = previewImg.naturalWidth;
-    canvas.height = previewImg.naturalHeight;
+    canvas.width = base_image.naturalWidth;
+    canvas.height = base_image.naturalHeight;
 
-    let img = document.createElement("img");
-    img.setAttribute("crossorigin", "anonymous")
-    img.onload = function() {
-        context.drawImage(previewImg, 0, 0);
-        context.drawImage(img, 0, 0, canvas.width, canvas.height * .5);
-        const link = document.createElement("a");
-        link.download = "image.png";
-        link.href = canvas.toDataURL();
-        link.click();
-    }
-    img.src = "thy start.png";
+    context.drawImage(base_image, 0, 0);
+    context.drawImage(previewImg, 0, 155, 320, 160);
+    const link = document.createElement("a");
+    link.download = "image.png";
+    link.href = canvas.toDataURL();
+    link.click();
 }
 
-saveImgBtn.addEventListener("click", saveImage);
+base_image.src = "thy start.png";
