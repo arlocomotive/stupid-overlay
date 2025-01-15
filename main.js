@@ -1,7 +1,6 @@
 saveImageButton = document.querySelector(".save-image");
-previewCanvas = document.querySelector(".preview-canvas");
+previewImage = document.querySelector(".preview-image");
 userIDInput = document.querySelector(".roblox-userid");
-previewContext = previewCanvas.getContext("2d");
 
 async function fetchAsync (url) {
     let response = await fetch(url);
@@ -12,24 +11,26 @@ async function fetchAsync (url) {
 let base_image = document.createElement("img");
 base_image.setAttribute("crossorigin", "anonymous");
 base_image.onload = function() {
-    previewCanvas.width = base_image.naturalWidth;
-    previewCanvas.height = base_image.naturalHeight;
+    previewImage.width = base_image.naturalWidth;
+    previewImage.height = base_image.naturalHeight;
 
     let avatar_image = document.createElement("img");
     avatar_image.setAttribute("crossorigin", "anonymous");
     avatar_image.onload = function() {
-        console.log("loaded");
-        previewContext.drawImage(base_image, 0, 0);
-        previewContext.drawImage(avatar_image, 0, 155, 320, 160);
-        previewContext.drawImage(avatar_image, 0, 455, 320, 160);
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        context.drawImage(base_image, 0, 0);
+        context.drawImage(avatar_image, 0, 155, 320, 160);
+        context.drawImage(avatar_image, 0, 455, 320, 160);
+        let dataURL = canvas.toDataURL();
+        previewImage.src = dataURL
         const link = document.createElement("a");
         link.download = "image.png";
-        link.href = previewCanvas.toDataURL();
+        link.href = dataURL
         link.click();
     }
     saveImageButton.addEventListener("click", () => {
         fetchAsync(("https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" + userIDInput.value + "&size=420x420&format=Png")).then(function(response) {
-            console.log(response.data[0].imageUrl);
             avatar_image.src = response.data[0].imageUrl;
         })
     });
